@@ -1,14 +1,10 @@
 <br />
 <div align="center">
-  <a href="#">
-    <img src="./src/assets/projectLogo.png" alt="Logo" width="80">
-  </a>
-
   <p align="center">
     Made using HTML and CSS!
     <br />
     <br />
-    <a target="_blank" href="">View Demo</a>
+    <a target="_blank" href="https://erickctra.github.io/css-animation-traffic/">View Demo</a>
 
   </p>
 </div>
@@ -26,17 +22,11 @@ I tried to recreate this animation on dribbble: <a target="_blank" href="https:/
 
 Follow the instructions to clone this project
 
-2. Clone the repo
+1. Clone the repo
    ```sh
-   git clone https://github.com/erickctra/frog-jack.git
+   git clone [https://github.com/erickctra/frog-jack.git](https://github.com/erickctra/css-animation-traffic.git)
    ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Run
-   ```js
-   npm run dev
-   ```
+2. open index.html
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
