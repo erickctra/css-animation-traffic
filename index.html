@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    :root {
+        --traffic-color: #E6DCD4;
+    }
+
+    .center {
+        width: 100dvw;
+        height: 100dvh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .canvas {
+
+        width: 100%;
+        height: 100%;
+
+        max-width: 700px;
+        max-height: 450px;
+
+        position: relative;
+
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        box-sizing: border-box;
+        padding-bottom: 0px;
+
+        /* background-color: #e9e8e8; */
+
+        overflow: hidden;
+
+
+    }
+
+    .road .left-divisor {
+        background: none !important;
+
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        width: 70%;
+        height: 55%;
+
+        --rotate: rotate(-25deg);
+        --rotateEnd: rotate(-30deg);
+
+        border-top: 1px solid #DBD1CE;
+        border-bottom: 0;
+        /* background-color: red; */
+        transform: rotate(-25deg);
+        transform-origin: top right;
+
+
+        /* animation: road-lines 6s linear infinite; */
+        /* animation-delay: 3s; */
+    }
+
+    /* 
+   ; */
+    .road .line {
+        background-image: linear-gradient(to right, #DBD1CE 40%, rgba(255, 255, 255, 0) 0%);
+        background-position: 0 top;
+        /* animation: road 6s linear infinite; */
+        animation: road-lines 8s linear infinite;
+        transition: all 2s;
+        background-size: 30px 0.7px;
+        background-repeat: repeat-x
+    }
+
+    .road .left-one {
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        --rotate: rotate(-35deg);
+        --rotateEnd: rotate(-37deg);
+
+
+        width: 70%;
+        height: 55%;
+
+        /* background-color: red; */
+        transform: rotate(-35deg);
+        transform-origin: top right;
+
+    }
+
+    .road .left-two {
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        --rotate: rotate(-50deg);
+        --rotateEnd: rotate(-52deg);
+
+        width: 70%;
+        height: 55%;
+
+        /* background-color: red; */
+        transform: rotate(-50deg);
+        transform-origin: top right;
+    }
+
+    .road .left-three {
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        --rotate: rotate(-70deg);
+        --rotateEnd: rotate(-72deg);
+
+        width: 70%;
+        height: 55%;
+
+        /* background-color: red; */
+        transform: rotate(-70deg);
+        transform-origin: top right;
+    }
+
+    .road .line-center {
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        --rotate: rotate(-90deg);
+        --rotateEnd: rotate(-90deg);
+
+        background-image: linear-gradient(to right, #dbd1ce2c 40%, rgba(255, 255, 255, 0) 0%) !important;
+
+        width: 70%;
+        height: 55%;
+
+        /* background-color: red; */
+        transform: rotate(-90deg);
+        transform-origin: top right;
+    }
+
+    .road .right-divisor {
+        background: none;
+
+        position: absolute;
+        bottom: 5%;
+        right: -20%;
+
+        width: 70%;
+        height: 55%;
+
+        --rotate: rotate(25deg);
+        --rotateEnd: rotate(30deg);
+
+        border-top: 1px solid #DBD1CE;
+        border-bottom: 0;
+        /* background-color: red; */
+        transform: rotate(25deg);
+        transform-origin: top left;
+    }
+
+    .road .right-one {
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        --rotate: rotate(-145deg);
+        --rotateEnd: rotate(-143deg);
+
+
+        width: 70%;
+        height: 55%;
+
+        /* background-color: red; */
+        transform: rotate(-145deg);
+        transform-origin: top right;
+    }
+
+    .road .right-two {
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        --rotate: rotate(-130deg);
+        --rotateEnd: rotate(-128deg);
+
+        width: 70%;
+        height: 55%;
+
+        /* background-color: red; */
+        transform: rotate(-130deg);
+        transform-origin: top right;
+    }
+
+    .road .right-three {
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        --rotate: rotate(-110deg);
+        --rotateEnd: rotate(-108deg);
+
+        width: 70%;
+        height: 55%;
+
+        /* background-color: red; */
+        transform: rotate(-110deg);
+        transform-origin: top right;
+    }
+
+
+    #left {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+    }
+
+    #right {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+    }
+
+    button {
+        border: none;
+        padding: 10px 16px;
+
+        border-radius: 4px;
+        z-index: 100;
+    }
+
+    button:focus {
+        border: 1px solid #5C6C21;
+    }
+
+    .object {
+        width: 30px;
+        height: auto;
+        /* background-color: green; */
+
+        /* filter: drop-shadow(4px 0px 0px #9DA77A) drop-shadow(-4px 0px 0px #9DA77A) drop-shadow(0px 4px 0px #9DA77A) drop-shadow(0px -4px 0px #9DA77A); */
+
+        display: flex;
+        flex-direction: column;
+
+        transition: all .1s;
+        overflow: hidden;
+
+        transform: rotate(0deg);
+        transform-origin: bottom left;
+        padding-bottom: 58px;
+        z-index: 80;
+    }
+
+
+    .object .triangle {
+        border-bottom: 80px solid #5C6C21;
+        border-right: solid 14px transparent;
+        border-left: solid 14px transparent;
+
+        transition: all 1s;
+    }
+
+    .object .square {
+        width: 30px;
+        height: 25px;
+        background-color: #5C6C21;
+
+        align-self: self-end;
+    }
+
+
+    .traffic {
+        /* width: 30px; */
+
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        /* background-color: blue; */
+    }
+
+
+    .traffic .triangle {
+        border-bottom: 120px solid white;
+        border-right: solid 14px transparent;
+        border-left: solid 14px transparent;
+
+        transform: rotate(46deg);
+        transform-origin: bottom left;
+    }
+
+    .traffic .square {
+        width: 30px;
+        height: 25px;
+        background-color: white;
+    }
+
+    .test {
+
+        position: absolute;
+
+        width: 350px;
+        height: 270px;
+
+        margin-left: -310px;
+
+        background-color: var(--traffic-color);
+        /* clip-path: polygon(33% 100%, 33% 88%, 44% 72%, 51% 72%, 51% 83%, 41% 100%); */
+
+        /* clip-path: polygon(9% 100%, 9% 88%, 25% 72%, 34% 72%, 34% 83%, 22% 100%); */
+
+        clip-path: polygon(9% 100%, 9% 88%, 15% 82%, 25% 82%, 25% 94%, 21% 100%);
+        /* clip-path: polygon(75% 24%, 75% 20%, 92.5% 2%, 93% 2%, 93% 2.5%, 78% 24%); */
+
+        /* animation: traffic-car-left 3s linear infinite; */
+        animation: traffic-car-left 8s linear(0 0%, 0 1.8%, 0.01 3.6%, 0.03 6.35%, 0.07 9.1%, 0.13 11.4%, 0.19 13.4%, 0.27 15%, 0.34 16.1%, 0.54 18.35%, 0.66 20.6%, 0.72 22.4%, 0.77 24.6%, 0.81 27.3%, 0.85 30.4%, 0.88 35.1%, 0.92 40.6%, 0.94 47.2%, 0.96 55%, 0.98 64%, 0.99 74.4%, 1 86.4%, 1 100%) infinite;
+        animation-delay: 1.4s;
+    }
+
+    .test2 {
+
+        position: absolute;
+
+        width: 350px;
+        height: 270px;
+
+        margin-right: -350px;
+
+        background-color: var(--traffic-color);
+
+        opacity: 0;
+
+        --initial-path: polygon(6.5% 10%, 1.5% 2.5%, 1.5% 2%, 2% 2%, 8.5% 7.5%, 8.5% 10%);
+        --second-path: polygon(35.5% 50%, 14.5% 20.5%, 14.5% 18%, 16% 18%, 41.5% 42.5%, 41.5% 50%);
+        --final-path: polygon(72% 100%, 67% 93%, 67% 82%, 78% 82%, 84% 88%, 84% 100%);
+
+        animation: traffic-fast 8s linear infinite;
+        animation-delay: 3.5s;
+    }
+
+    .test3 {
+        position: absolute;
+
+        width: 350px;
+        height: 270px;
+
+        margin-right: 350px;
+
+        background-color: var(--traffic-color);
+
+        opacity: 0;
+
+        --initial-path: polygon(95% 10%, 95% 8%, 99% 2%, 99.5% 2%, 99.5% 2.5%, 97% 10%);
+        --second-path: polygon(77% 50%, 77% 43%, 91% 19%, 92.5% 19%, 92.5% 20.5%, 83% 50%);
+        --final-path: polygon(52% 100%, 52% 88%, 55.5% 82%, 67.5% 82%, 67.5% 92.5%, 65% 100%);
+
+        animation: traffic-fast 8s linear infinite;
+        animation-delay: 4.5s;
+    }
+
+    .test4 {
+        position: absolute;
+
+        width: 350px;
+        height: 270px;
+
+        margin-right: -350px;
+
+        background-color: var(--traffic-color);
+
+        opacity: 0;
+
+        --initial-path: polygon(3.5% 10%, 1% 3.5%, 1% 2.5%, 1.5% 2.5%, 5.5% 7.5%, 5.5% 10%);
+
+        --second-path: polygon(17.5% 50%, 7.5% 21.5%, 7.5% 18.5%, 9.5% 18.5%, 23.5% 42.5%, 23.5% 50%);
+        --final-path: polygon(35.5% 100%, 32.5% 92.5%, 32.5% 82.5%, 44.5% 82.5%, 48.5% 88.5%, 48.5% 100%);
+
+
+        animation: traffic-fast 8s linear infinite;
+        animation-delay: 5.5s;
+    }
+
+    .test5 {
+        position: absolute;
+
+        width: 350px;
+        height: 270px;
+
+        margin-right: 350px;
+
+        background-color: var(--traffic-color);
+
+        opacity: 0;
+
+        /* polygon(52% 100%, 52% 88%, 55.5% 82%, 67.5% 82%, 67.5% 92.5%, 65% 100%) */
+
+        --initial-path: polygon(52% 100%, 52% 88%, 55.5% 82%, 67.5% 82%, 67.5% 92.5%, 65% 100%);
+        --second-path: polygon(77% 50%, 77% 43%, 91% 19%, 92.5% 19%, 92.5% 20.5%, 83% 50%);
+        --final-path: polygon(95% 10%, 95% 8%, 99% 2%, 99.5% 2%, 99.5% 2.5%, 97% 10%);
+
+        animation: traffic-start-speeding 8s linear infinite;
+        /* animation-delay: 8s; */
+    }
+
+    .test6 {
+        position: absolute;
+
+        width: 350px;
+        height: 270px;
+
+        margin-right: -350px;
+
+        background-color: var(--traffic-color);
+
+        opacity: 0;
+
+        --initial-path: polygon(35.5% 100%, 32.5% 92.5%, 32.5% 82.5%, 44.5% 82.5%, 48.5% 88.5%, 48.5% 100%);
+        --second-path: polygon(17.5% 50%, 7.5% 21.5%, 7.5% 18.5%, 9.5% 18.5%, 23.5% 42.5%, 23.5% 50%);
+        --final-path: polygon(3.5% 10%, 1% 3.5%, 1% 2.5%, 1.5% 2.5%, 5.5% 7.5%, 5.5% 10%);
+
+        animation: traffic-start-speeding 8s linear infinite;
+
+        animation-delay: 0.5s;
+    }
+
+    @keyframes road-lines {
+
+        0% {
+            transform: var(--rotate);
+            background-position: 0 top;
+        }
+
+        30% {
+            transform: var(--rotate);
+            background-position: -200px top;
+        }
+
+        32% {
+            transform: var(--rotateEnd);
+        }
+
+        80% {
+            transform: var(--rotateEnd);
+        }
+
+        82% {
+            background-position: -2500px top;
+
+        }
+
+        100% {
+            transform: var(--rotate);
+            background-position: -2700px top;
+
+        }
+    }
+
+    @keyframes sky-lines {
+
+        0% {
+            /* transform: var(--rotate); */
+            background-position: 0 top;
+        }
+
+        30% {
+            /* transform: var(--rotate); */
+            background-position: -300px top;
+        }
+
+        32% {
+            /* transform: var(--rotateEnd); */
+        }
+
+        82% {
+            /* transform: var(--rotateEnd); */
+            background-position: -2500px top;
+
+        }
+
+        100% {
+            background-position: -2700px top;
+
+        }
+
+    }
+
+    @keyframes traffic-car-left {
+
+        0%,
+        25%,
+        100% {
+            /* clip-path: polygon(33% 100%, 33% 88%, 44% 72%, 51% 72%, 51% 83%, 41% 100%); */
+            /* clip-path: polygon(9% 100%, 9% 88%, 25% 72%, 34% 72%, 34% 83%, 22% 100%); */
+            opacity: 0.3;
+            clip-path: polygon(9% 100%, 9% 88%, 15% 82%, 25% 82%, 25% 94%, 21% 100%);
+        }
+
+        15% {
+            opacity: 1;
+            /* clip-path: polygon(79% 24%, 79% 20%, 92.5% 2.5%, 93% 2.5%, 93% 3.5%, 81.5% 24%); */
+            clip-path: polygon(75% 24%, 75% 20%, 92.5% 2%, 93% 2%, 93% 2.5%, 78% 24%);
+        }
+    }
+
+    @keyframes traffic-start-speeding {
+
+        0%,
+        40% {
+            opacity: 0;
+            clip-path: var(--initial-path);
+        }
+
+        6% {
+            opacity: 1;
+            clip-path: var(--second-path);
+        }
+
+        8% {
+            clip-path: var(--final-path);
+        }
+
+        9% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes traffic-fast {
+
+        0%,
+        30% {
+            opacity: 0;
+            clip-path: var(--initial-path);
+        }
+
+        3% {
+            opacity: 1;
+            clip-path: var(--second-path);
+        }
+
+        4% {
+            clip-path: var(--final-path);
+        }
+
+        6% {
+            opacity: 0;
+        }
+    }
+
+
+
+    .sky .line {
+
+        background-image: linear-gradient(to right, #DBD1CE 40%, rgba(255, 255, 255, 0) 0%);
+        background-position: 0 bottom;
+        /* animation: road 6s linear infinite; */
+        animation: sky-lines 8s linear infinite;
+        transition: all 2s;
+        background-size: 180px 0.7px;
+        background-repeat: repeat-x
+    }
+
+    .sky .left-one {
+        /* background: none !important; */
+
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        width: 70%;
+        height: 55%;
+
+        --rotate: rotate(-25deg);
+        --rotateEnd: rotate(-30deg);
+
+        border-bottom: 0;
+        /* background-color: red; */
+        transform: rotate(25deg);
+        transform-origin: top right;
+    }
+
+    .sky .left-two {
+        /* background: none !important; */
+
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        width: 70%;
+        height: 55%;
+
+        --rotate: rotate(-25deg);
+        --rotateEnd: rotate(-30deg);
+
+        border-bottom: 0;
+        /* background-color: red; */
+        transform: rotate(35deg);
+        transform-origin: top right;
+    }
+
+    .sky .left-three {
+        /* background: none !important; */
+
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        width: 70%;
+        height: 55%;
+
+        --rotate: rotate(-25deg);
+        --rotateEnd: rotate(-30deg);
+
+        border-bottom: 0;
+        /* background-color: red; */
+        transform: rotate(55deg);
+        transform-origin: top right;
+    }
+
+    .sky .line-center {
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        width: 70%;
+        height: 55%;
+
+        --rotate: rotate(-25deg);
+        --rotateEnd: rotate(-30deg);
+
+        border-bottom: 0;
+        /* background-color: red; */
+        transform: rotate(90deg);
+        transform-origin: top right;
+    }
+
+    .sky .right-one {
+        /* background: none !important; */
+
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        width: 70%;
+        height: 55%;
+
+        --rotate: rotate(-25deg);
+        --rotateEnd: rotate(-30deg);
+
+        border-bottom: 0;
+        /* background-color: red; */
+        transform: rotate(155deg);
+        transform-origin: top right;
+    }
+
+    .sky .right-two {
+        /* background: none !important; */
+
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        width: 70%;
+        height: 55%;
+
+        --rotate: rotate(-25deg);
+        --rotateEnd: rotate(-30deg);
+
+        border-bottom: 0;
+        /* background-color: red; */
+        transform: rotate(145deg);
+        transform-origin: top right;
+    }
+
+    .sky .right-three {
+        position: absolute;
+        bottom: 5%;
+        left: -20%;
+
+        width: 70%;
+        height: 55%;
+
+        --rotate: rotate(-25deg);
+        --rotateEnd: rotate(-30deg);
+
+        border-bottom: 0;
+        /* background-color: red; */
+        transform: rotate(125deg);
+        transform-origin: top right;
+    }
+
+    .bottom-layer {
+        position: absolute;
+
+
+        width: 100%;
+        height: 58px;
+        background-color: white;
+
+        /* border: 1px dashed red; */
+
+        z-index: 100;
+    }
+</style>
+
+<body>
+    <div class="center">
+        <div class="canvas">
+            <button id="left">Left</button>
+            <button id="right">Right</button>
+
+            <div id="car" class="object">
+                <div id="direction" class="triangle"></div>
+                <div class="square">
+                </div>
+            </div>
+
+            <div class="test">
+            </div>
+            <div class="test2">
+            </div>
+            <div class="test3">
+            </div>
+
+            <div class="test4">
+            </div>
+
+            <div class="test5">
+            </div>
+
+            <div class="test6">
+            </div>
+
+            <div class="sky">
+                <div class="left-one line"></div>
+                <div class="left-two line"></div>
+                <div class="left-three line"></div>
+
+                <div class="line-center line"></div>
+
+                <div class="right-one line"></div>
+                <div class="right-two line"></div>
+                <div class="right-three line"></div>
+            </div>
+
+            <div class="road">
+                <div class="left-divisor line"></div>
+                <div class="left-one line"></div>
+                <div class="left-two line"></div>
+                <div class="left-three line"></div>
+
+                <div class="line-center line"></div>
+
+                <div class="right-one line"></div>
+                <div class="right-two line"></div>
+                <div class="right-three line"></div>
+                <div class="right-divisor line"></div>
+            </div>
+
+            <!-- to help on hiding -->
+            <div class="bottom-layer">
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="./scripts.js"></script>
+</body>
+
+</html>
