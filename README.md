@@ -24,7 +24,7 @@ Follow the instructions to clone this project
 
 1. Clone the repo
    ```sh
-   git clone [https://github.com/erickctra/frog-jack.git](https://github.com/erickctra/css-animation-traffic.git)
+   git clone [https://github.com/erickctra/css-animation-traffic.git]
    ```
 2. open index.html
 
